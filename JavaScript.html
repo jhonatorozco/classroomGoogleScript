@@ -1,0 +1,88 @@
+<!-- Load the jQuery and jQuery UI libraries. -->
+<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.0/jquery-ui.min.js"></script>
+
+<!-- Custom client-side JavaScript code. -->
+<script>
+  // When the page loads.
+  var selectedCourses = [];
+  $(function() {
+   $('#form-courses').bind('submit', onFormSubmit);
+   loadCoursesList();  
+  });
+  /**
+   * Load the courses
+   */
+  function loadCoursesList() {
+    google.script.run.withSuccessHandler(showCourses)
+        .withFailureHandler(showError)
+        .getCoursesList();
+  }
+  /**
+   * Show the returned courses list in the check box.
+   * @param {Array.<Object>} coursesList The course list to show.
+   */
+  function showCourses(coursesList) {
+    //loadTasks();
+     var list = $('#coursesList');
+   
+     for (var i = 0; i < coursesList.length; i++) {
+        var item = $('<li>');
+        var checkbox = $('<input type="checkbox">')
+            .data('courseId', coursesList[i].codigoMateria)
+            .data('groupId',coursesList[i].grupo)
+            .bind('change', onCheckBoxChange);
+        item.append(checkbox);
+        var courseTitle = $('<span>')
+            .text(coursesList[i].nombreMateria);
+        item.append(courseTitle);
+        list.append(item);
+     }
+  }
+  
+    /**
+   * A callback function that runs when a course is checked or unchecked.
+   **/
+  function onCheckBoxChange() {
+    var checkbox = $(this);
+    var courseTitle = checkbox.siblings('span').text();
+    var isChecked = checkbox.prop('checked');
+    var courseId = checkbox.data('courseId');
+    var groupId = checkbox.data('groupId');
+    var course= {
+      "codigoMateria": courseId,
+      "nombreMateria": courseTitle,
+      "grupo": groupId
+    };
+    var indexes = $.map(selectedCourses, function(obj, index) {
+      if(obj.codigoMateria == course.codigoMateria && obj.grupo == course.grupo) {
+        return index;
+      }
+    });
+    if (indexes.length==0) {
+      selectedCourses.push(course);
+    } else {
+      selectedCourses.splice(indexes[0], 1);
+    }
+    console.log(selectedCourses);
+    
+  }
+
+
+  /**
+   * A callback function that runs when the form is submitted.
+   */
+  function onFormSubmit() {
+    google.script.run.withSuccessHandler().withFailureHandler(showError)
+      .createCourses(selectedCourses);
+    return false;
+  }
+  /**
+   * Logs an error message and shows an alert to the user.
+   */
+  function showError(error) {
+    console.log(error);
+    window.alert('An error has occurred, please try again.');
+  }
+</script>
+
