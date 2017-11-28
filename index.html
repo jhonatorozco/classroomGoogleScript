@@ -2,15 +2,39 @@
 <html>
 <head>
     <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('Stylesheet').getContent(); ?>
 </head>
 <body>
-  <form name="form-courses" id="form-courses">
-   <p>Lista de cursos:</p>
-   <ul id="coursesList">
-   </ul>
-   <input type="submit" name="add" id="add-button" value="Add" />
-  </form>
-    
+    <div class="text-center">
+        <!-- <img src="http://www.udea.edu.co/wps/wcm/connect/udea/3ef4bbd1-4ae7-4c87-b843-685c6f017501/logo-udea.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-3ef4bbd1-4ae7-4c87-b843-685c6f017501-lr.XbEn"
+                    alt="logo_udea"> -->
+        <a href="http://www.udea.edu.co">
+            <img class="img-banner" src="http://www.udea.edu.co/wps/wcm/connect/udea/3ef4bbd1-4ae7-4c87-b843-685c6f017501/logo-udea.png?MOD=AJPERES&CACHEID=3ef4bbd1-4ae7-4c87-b843-685c6f017501"/>
+        </a>
+        <a href="">
+            <img class="img-arrows img-banner" src="https://www.shareicon.net/data/128x128/2015/12/15/687722_arrows_512x512.png"/>
+        </a>
+        <a href="https://classroom.google.com">
+            <img class="img-banner" src="http://www.fthuachuca.k12.az.us//cms/lib7/AZ01001181/Centricity/Domain/49/lor-google-classroom-logo.png"/>
+        </a>
+
+        <h1>¡Bienvenido!</h1>
+        <h2 id="email"></h2>
+   </div>
+  <div class="container">
+        <div class="shadow col-md-8 col-md-offset-2">
+            <form name="form-courses" id="form-courses">
+              <legend>Creación de aulas virtuales</legend>
+              <p class="lead">
+                Por favor, seleccione cada uno de los cursos a los que desea crear un aula virtual en la plataforma
+                de Google Classroom.
+              </p>
+              <div id="coursesList">
+              </div>
+              <button class="action" name="add" id="add-button" value="Add">Crear aulas virtuales</button>
+            </form>
+        </div>
+  </div>
     <?!= HtmlService.createHtmlOutputFromFile('JavaScript').getContent(); ?>
 </body>
 </html>

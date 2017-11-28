@@ -8,8 +8,19 @@
   var selectedCourses = [];
   $(function() {
    $('#form-courses').bind('submit', onFormSubmit);
-   loadCoursesList();  
+   loadCoursesList();
+   loadUserEmail();
   });
+  
+  /**
+   * Load the user's email
+   */
+  function loadUserEmail() {
+    google.script.run
+          .withSuccessHandler(showUserEmail)
+          .withUserObject(this)
+          .getUserEmail();
+  }
   /**
    * Load the courses
    */
@@ -24,20 +35,31 @@
    */
   function showCourses(coursesList) {
     //loadTasks();
+    console.log(coursesList);
      var list = $('#coursesList');
    
      for (var i = 0; i < coursesList.length; i++) {
-        var item = $('<li>');
+        var item = $('<div>');
         var checkbox = $('<input type="checkbox">')
-            .data('courseId', coursesList[i].codigoMateria)
-            .data('groupId',coursesList[i].grupo)
+            .data('courseId', coursesList[i].course_id)
+            .data('students',coursesList[i].students)
             .bind('change', onCheckBoxChange);
         item.append(checkbox);
         var courseTitle = $('<span>')
-            .text(coursesList[i].nombreMateria);
+            .text(coursesList[i].course_name);
         item.append(courseTitle);
         list.append(item);
      }
+  }
+  
+  /**
+   * Set the user's email inside title
+   */
+  function showUserEmail(email) {
+    //var email = google.script.run.withSuccessHandler().withFailureHandler(showError).getUserEmail();
+    google.script.run.getUserEmail();
+    console.log(email);
+    $('#email').text(email);
   }
   
     /**
@@ -48,14 +70,14 @@
     var courseTitle = checkbox.siblings('span').text();
     var isChecked = checkbox.prop('checked');
     var courseId = checkbox.data('courseId');
-    var groupId = checkbox.data('groupId');
+    var students = checkbox.data('students');
     var course= {
-      "codigoMateria": courseId,
-      "nombreMateria": courseTitle,
-      "grupo": groupId
+      "course_id": courseId,
+      "course_name": courseTitle,
+      "students": students
     };
     var indexes = $.map(selectedCourses, function(obj, index) {
-      if(obj.codigoMateria == course.codigoMateria && obj.grupo == course.grupo) {
+      if(obj.course_id == course.course_id ) {
         return index;
       }
     });
