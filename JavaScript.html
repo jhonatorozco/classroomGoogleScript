@@ -1,11 +1,13 @@
 <!-- Load the jQuery and jQuery UI libraries. -->
-<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script  src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
 <!-- Custom client-side JavaScript code. -->
 <script>
   // When the page loads.
   var selectedCourses = [];
+  
   $(function() {
    $('#form-courses').bind('submit', onFormSubmit);
    loadCoursesList();
@@ -94,9 +96,14 @@
   /**
    * A callback function that runs when the form is submitted.
    */
-  function onFormSubmit() {
-    google.script.run.withSuccessHandler().withFailureHandler(showError)
+  function onFormSubmit() {  
+    $('#pleaseWaitDialog').modal('show');
+    google.script.run.withSuccessHandler(function(){
+      $('#pleaseWaitDialog').modal('hide');
+      $('#myModal').modal('show');
+    }).withFailureHandler(showError)
       .createCourses(selectedCourses);
+         
     return false;
   }
   /**

@@ -40,10 +40,9 @@ function createCourses(selectedCourses){
       };
       var request = Classroom.Invitations.create(invitation);
       
-    }
-    
+    } 
   }
- 
+  
 }
 
 function getUserEmail() {
@@ -51,3 +50,5 @@ function getUserEmail() {
   email = Session.getEffectiveUser().getUsername();
   return email;
 }
+
+

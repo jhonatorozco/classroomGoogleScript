@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <base target="_top">
     <?!= HtmlService.createHtmlOutputFromFile('Stylesheet').getContent(); ?>
 </head>
@@ -35,6 +36,40 @@
             </form>
         </div>
   </div>
+  <!-- modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Operación exitosa</h4>
+        </div>
+        <div class="modal-body">
+          Los cursos se encuentran disponibles en 
+          <a href="https://classroom.google.com/?hl=e"> Google Classroom</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+   <div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1>Procesando...</h1>
+        </div>
+        <div class="modal-body">
+          <div class="progress">
+             <div class="progress-bar" role="progressbar" style="width:100%">
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <?!= HtmlService.createHtmlOutputFromFile('JavaScript').getContent(); ?>
 </body>
 </html>
